@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./assets/images/favicon-32x32.png" type="image/x-icon">
+    <link rel="stylesheet" href="./assets/icons/fontawesome-free-6.4.2-web/css/fontawesome.min.css">
+    <link rel="stylesheet" href="./assets/icons/fontawesome-free-6.4.2-web/css/solid.min.css">
+    
+    <title>Countries | World</title>
+    <style>
+        :root{
+            
+            --color-Dark-Blue: hsl(209, 23%, 22%);
+            --color-Very-Dark-Blue : hsl(207, 26%, 17%);
+            --color-Dark-Gray: hsl(0, 0%, 52%);
+            --color-Very-Light: hsl(0, 0%, 98%);
+            --color-White: hsl(0, 0%, 100%);
+            --color-black:rgb(0,0,0);
+            --background-color:hsl(0, 0%, 100%);
+            --color:rgb(0,0,0);
+            font-size: 62.5%;
+
+        }
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @font-face {
+            font-family:"NunitoSans_7pt-Regular" ;
+            src: url('./assets/font/static/NunitoSans_7pt-Regular.ttf');
+        }
+        
+        @font-face {
+            font-family:"NunitoSans_10pt-Bold" ;
+            src: url('./assets/font/static/NunitoSans_10pt-Bold.ttf');
+        }
+        
+        @font-face {
+            font-family:"NunitoSans_10pt-Medium" ;
+            src: url('./assets/font/static/NunitoSans_10pt-Medium.ttf');
+        }
+
+        body{
+            font-family:"NunitoSans_7pt-Regular" ;
+            background-color: var(--background-color);
+            color: var(--color);
+            
+        }
+
+        .header{
+            width: 100%;
+            height: 70px;
+            padding: 10px 20px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between  ;
+            align-items: center;
+           
+           
+        }
+        
+        .header__logo{
+            font-size: 1.4rem;
+        }
+
+        .header__texto{
+            font-size: 1rem;
+            position: relative;
+        }
+        .header__texto:hover{
+            cursor: pointer;
+        }
+
+        .main{
+            background-color: var(--color-Very-Light);
+            color: var(--color-black);
+            width: 100%;
+            padding: 20px 20px 50px;
+            min-height: calc( 100vh - 70px );
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+
+        .main-form{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 95px;
+        }
+        
+        /* Formulario de filtros */
+        .main-form div{
+            position: relative;
+        }
+
+        .main-form div i{
+            position: absolute;
+            top: 8px;
+            left: 10px;
+            font-size: 1.4rem;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+        }
+
+        .main-form div i:hover{
+            cursor: pointer;
+        }
+        .main-form__search{
+            height: 36px;
+            width: 100%;
+            font-size: 1.2rem;
+            outline: none;
+            border: none;
+            padding-left: 45px;
+            box-shadow: 3px 3px 5px rgba(0,0,0,0.1);
+            color: inherit;
+            background-color: inherit;
+        }
+
+        .main-form__search::placeholder{
+            color: var(--color-Dark-Gray);
+        }
+
+
+        .dropdown{
+            width: 60%;
+            position: relative;
+        }
+
+        .dropdown *{
+            box-sizing: border-box;
+        }
+
+        .select {
+            display:flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1em;
+            cursor: pointer;
+            transition: background 0.3s;
+            box-shadow: 3px 3px 5px rgba(0,0,0,0.1);
+        }
+
+      
+
+        .caret{
+            background-color: var(--color-black);
+            transition: 0.3s;
+            width: 10px;
+            height: 5px;
+            clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+            
+        }
+
+        .caret-rotate{
+            transform: rotate(180deg);
+        }
+
+        .menu{
+            list-style: none;
+            padding: 20px 0;
+            box-shadow: 0 0.5em 1em rgba(0,0,0,0.2);
+            border-radius: 0.5em;
+            position: absolute; 
+            top: 100%;
+            width: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            display: none;
+            margin-top: 3px;
+            background-color: var(--color-White);
+        }
+
+        .menu li:hover{
+            background:hsl(0, 0%, 52%);
+        }
+
+        .menu li{
+            height: 25px;
+            padding-left:18px ;
+            display: flex;
+            justify-content: start;
+            align-items: center;
+        }
+
+        .active{
+            background:hsl(0, 0%, 52%);
+            
+        }
+
+        .menu-open{
+            display: block;
+            opacity: 1;
+        }
+
+       
+
+        /* Seccion corresponde a los paises */
+
+        .main-countries{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+       
+        }
+
+        .main-countries>div{
+            margin-top:30px;
+        }
+
+        /* cards: ; */
+        .main-countries-country{
+            
+            width: 240px;
+            height: 300px;
+            background-color: var(--color-White);
+        }
+
+        .main-countries-country__flag{
+            width: 100%;
+            height: 50%;
+            margin-top: 0px;
+        }
+        
+        
+        .main-countries-country__flag:hover{
+            cursor: pointer;
+        }
+
+        div .main-countries-country-description{
+            margin-top: 0px;
+            width: 100%;
+            height: 50%;
+        }
+
+        .main-countries-country-description{
+            padding: 30px 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .main-countries-country-description__titulo{
+            font-size: 2rem;
+        }
+
+        .main-countries-country-description p{
+            font-size: 1.4rem;
+            margin-top: 2px;
+        }
+
+        .detalle{
+            width: 100%;
+            height: calc( 100vh - 70px);
+            background-color: var(--color-Very-Light);
+            color: var(--color-black);
+            padding: 20px 20px 50px;
+            display: grid;
+            grid-template-rows:repeat(2,auto) ;
+
+        }
+
+        .detalle-form{
+            width: 100%;
+            
+        }
+
+        .detalle-form button{
+            border: none;
+            width: 90px;
+            height: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+            font-size: 1.2rem;
+            font-family: "NunitoSans_7pt-Regular";
+        }
+        .detalle-form button:hover{
+            cursor: pointer;
+        }
+        .detalle-info{
+            width: 100%;
+            background-color: tomato;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: start;
+        }
+
+        .detalle-info__bandera{
+            width: 100%;
+            max-width: 280px;
+            height: 150px;
+            background: url('https://flagcdn.com/pf.svg') no-repeat center;
+            background-size: cover;
+            align-self: center;
+        }
+
+        
+
+        @media only screen and (min-width:320px) and (max-width:480px){
+            .main-form>div:first-child{
+                width: 80%;
+            }
+
+            .main-form>div:last-child{
+                width: 45%;
+            }
+
+            .main-countries-country{
+                height: 320px;
+            }
+        }
+
+        @media only screen and (min-width:481px) and (max-width:768px){
+            .main-form>div:first-child{
+                width: 80%;
+            }
+
+            .main-form>div:last-child{
+                width: 48%;
+            }
+
+            .main-countries{
+                flex-direction: row;
+                justify-content: space-evenly;
+                flex-wrap: wrap;
+            }
+
+            .main-countries-country{
+                height: 320px;
+            }
+
+            
+
+        }
+
+        @media only screen and (min-width:769px) and (max-width:992px){
+            .main-form>div:first-child{
+                width: 80%;
+            }
+
+            .main-form>div:last-child{
+                width: 48%;
+            }
+
+            .main-countries{
+                flex-direction: row;
+                justify-content: space-evenly;
+                flex-wrap: wrap;
+            }
+
+            .main-countries-country{
+                height: 320px;
+            }
+        }
+
+        @media only screen and (min-width:993px){
+            .main-form>div:first-child{
+                width: 40%;
+            }
+
+            .main-form>div:last-child{
+                width: 20%;
+            }
+
+            .main-countries{
+                flex-direction: row;
+                justify-content: space-evenly;
+                flex-wrap: wrap;
+                
+            }
+
+            .main-countries-country{
+                height: 360px;
+            }
+
+
+        }
+
+
+</style>
+</head>
+<body>
+    <header class="header">
+        <h1 class="header__logo">Where in the World</h1>
+        <p class="header__texto"><i class="fa-solid fa-circle-half-stroke"></i>&nbsp;Dark Mode</p>
+    </header>
+    <main class="main">
+        <form class="main-form">
+            <div>
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input class="main-form__search" type="text" placeholder="Search for a country ...">
+            </div>    
+            
+            <div class="dropdown main-form__selection">
+                <div class="select">
+                  <span class="selected">Filter by Region</span>
+                  <div class="caret"></div>
+                </div>
+                <ul class="menu">
+                   
+                </ul>
+            </div>
+        </form>
+        <div class="main-countries">
+            <!-- <div class="main-countries-country">
+                <div class="main-countries-country__flag">
+                    <img src="https://flagcdn.com/bq.svg" alt="Bandera Pais">
+                </div>
+                <div class="main-countries-country-description">
+                    <h2 class="main-countries-country-description__titulo">Germany</h2>
+                    <div>
+                        <p class="main-countries-country-description__populacion">Populacion: <span></span></p>
+                        <p class="main-countries-country-description__region"> Region: <span></span></p>
+                        <p class="main-countries-country-description__capital">Capital: <span></span> </p>
+                    </div>
+                </div>
+            </div> -->
+            
+        </div>
+    </main>
+    <section class="detalle">
+        
+        <form class="detalle-form">
+            <button> <i class="fa-solid fa-arrow-left"></i> &nbsp; Back</button>
+        </form>
+
+        <div class="detalle-info">
+            <div class="detalle-info__bandera">
+                
+            </div>
+            <div class="detalle-info__datos">
+                <div class="detalle-info__datos--country">
+                    <div>
+                        <h1>Belgium</h1>
+                        <p>Native Name</p>
+                        <p>Populacion</p>
+                        <p>Region</p>
+                        <p>Sub Region</p>
+                        <p>Capital</p>
+                    </div>
+                    <div>
+                        <p>Top Level Domain</p>
+                        <p>Currences</p>
+                        <p>Languaje</p>
+                    </div>
+                </div>
+                <div class="detalle-info__datos--frontera">
+                    <span>Border Countries</span>
+                    <span>France</span>
+                    <span>Germany</span>
+                    <span>Netherlan</span>
+                </div>
+            </div>
+        </div>
+        
+    </section>
+
+    <script>
+
+        //script corresponde a llenado dinamico de los paises
+        function consultaApi(callback){
+            
+            const dataPaises = localStorage.getItem("dataPaises");
+            let dataReturn='';
+            const fecha= new Date();
+            console.log(fecha);
+            if(!dataPaises){
+                fetch('https://restcountries.com/v3.1/all')
+                .then(response=>response.json())
+                .then(data=>{
+                    if(data.length===0){
+                        console.log('Empty data');
+                    }else{
+                        localStorage.setItem("dataPaises",JSON.stringify(data));
+                        dataReturn=[...data];
+                        callback(dataReturn);
+                    }
+                })
+                .catch(error=>{
+                    console.log(error);
+                });
+                
+            }else{
+                dataReturn = JSON.parse(dataPaises);
+                callback(dataReturn);
+            }
+            
+            
+         }
+
+        //script de busqueda:
+        function busqueda(dataPaises,otrocallback){
+            Doms['form']=document.querySelector('.main-form')
+            Doms['header']=document.querySelector('.header');
+            Doms['main']=document.querySelector('.main');
+            Doms['mode']=document.querySelector('.header__texto');
+            Doms['menu']=document.querySelector('.menu');
+            Doms['caret']=document.querySelector('.caret');
+            Doms['countries']=document.querySelector('.main-countries');
+            Doms['search']=document.querySelector('.main-form__search');
+            
+            Doms['form'].addEventListener('submit',(event=>{
+                event.preventDefault();
+            }));
+
+            fillItem(Doms['menu'],dataPaises);
+            createDropdown(dataPaises,Doms['countries']);
+           
+            
+            let filter=[...dataPaises];
+            let attr='a';
+            
+            Doms['search'].addEventListener('input',(event)=>{
+                const input=event.target.value.toUpperCase();
+                filterCoutriesSelect(filter,Doms['countries'],input,2);
+            });
+
+
+            showContries(filter,Doms['countries']);
+            otrocallback(Doms['header'],Doms['main'],Doms['mode'],Doms['menu'],Doms['caret'],Doms['countries']);
+        }
+
+        //Script llenado de lista
+        function fillItem(menu,dataPaises){
+            const items=
+            dataPaises.reduce((cuenta,elemento)=>{
+                cuenta[elemento.region]=(cuenta[elemento.region]||0)+1;
+                return cuenta;
+            },{});
+
+            const region=Object.keys(items).sort();
+            
+            
+            region.forEach((elemento)=>{
+                if(elemento!=="Antarctic"){
+                    const item= document.createElement('li');
+                    item.textContent=elemento;
+                    menu.appendChild(item);
+                }
+            });
+         }
+        
+         //Script corresponde a custom select
+        function createDropdown(dataPaises,countries){
+            const dropdowns=document.querySelectorAll('.dropdown');
+            let selected='';
+            dropdowns.forEach(dropdown => {
+                const select = dropdown.querySelector('.select');
+                const caret = dropdown.querySelector('.caret');
+                const menu = dropdown.querySelector('.menu');
+                const options = dropdown.querySelectorAll('.menu li');
+                selected = dropdown.querySelector('.selected');
+            
+                select.addEventListener('click',()=>{
+                    select.classList.toggle('select-clicked');
+                    caret.classList.toggle('caret-rotate');
+                    menu.classList.toggle('menu-open');
+                });
+
+                options.forEach(option=>{
+                    option.addEventListener('click',()=>{
+                        if(!option.classList.contains('active')){
+                            selected.innerText=option.innerText;
+                            filterCoutriesSelect(dataPaises,countries,selected.innerText,1);
+                            select.classList.remove('select-cliked');
+                            caret.classList.remove('caret-remove');
+                            menu.classList.remove('menu-open');
+                            options.forEach((option)=>{
+                                option.classList.remove('active');
+                            });
+                            option.classList.add('active');
+                        }else{
+                            selected.innerText="Filter by Region";
+                            filterCoutriesSelect(dataPaises,countries,selected.innerText,0);
+                            select.classList.remove('select-cliked');
+                            caret.classList.remove('caret-remove');
+                            menu.classList.remove('menu-open');
+                            options.forEach((option)=>{
+                                option.classList.remove('active');
+                            });
+                        }
+                        
+                        
+                    });
+                });
+    
+                
+            });
+                
+    }
+
+        //Script muestra countries por custom select
+        function filterCoutriesSelect(dataPaises,countries,filtro,prioridad){
+            
+            switch(prioridad){
+                case 0:
+                        Obj[prioridad]=dataPaises;
+                        delete Obj[1];
+                        break;
+
+                case 1:
+                        Obj[prioridad]=dataPaises.filter(pais=>{
+                            return pais.region===filtro;
+                        });    
+                        Doms['search'].value='';
+                        break;
+                case 2:
+                        if(Obj[1]){
+                            
+                            Obj[prioridad]=Obj[1].filter(country=>{
+                                return country.name.official.toUpperCase().includes(filtro);
+                            });
+                            
+                        }else{
+                            Obj[prioridad]=dataPaises.filter(country=>{
+                                return country.name.official.toUpperCase().includes(filtro);
+                            });
+                            
+                        }
+                        break;
+                
+            }
+                
+                countries.innerHTML=''
+                showContries(Obj[prioridad],countries,verifyTheme());    
+        }
+
+        //Script solo muestra los paises
+
+        function showContries(data,countries,attr){
+                console.log(data.length);
+
+                data.forEach((pais)=>{
+                    const official=pais.name?.official;
+                    const population=pais?.population;
+                    const region=pais?.region;
+                    const capital=pais?.capital;
+                    const {svg}=pais?.flags;
+                    // console.log(official+population+region+capital);
+                    
+                    const ancla=document.createElement('a');
+                    
+                    
+                    const country=document.createElement('div');
+                    country.classList.add('main-countries-country');
+                    country.style.setProperty("background-color",attr);
+                    
+                    let span3=document.createElement('span');
+                    span3.textContent=capital;
+
+                    let p3=document.createElement('p');
+                    p3.classList.add('main-countries-country-description__capital');
+                    p3.textContent='Capital: '
+
+                    p3.appendChild(span3);
+
+
+                    let span2=document.createElement('span');
+                    span2.textContent=region;
+
+                    let p2=document.createElement('p');
+                    p2.classList.add('main-countries-country-description__capital');
+                    p2.textContent='Region: '
+
+                    p2.appendChild(span2);
+                    
+                    
+                    let span1=document.createElement('span');
+                    span1.textContent=population.toLocaleString();
+
+                    let p1=document.createElement('p');
+                    p1.classList.add('main-countries-country-description__capital');
+                    p1.textContent='Populacion: '
+
+                    p1.appendChild(span1);
+
+                    let titulo=document.createElement('h2');
+                    titulo.textContent=official;
+
+                    let country_description=document.createElement('div');
+                    country_description.classList.add('main-countries-country-description');
+                    country_description.appendChild(titulo);
+                    country_description.appendChild(p1);
+                    country_description.appendChild(p2);
+                    country_description.appendChild(p3);
+
+                    
+                    let country_flag=document.createElement('div');
+                    const ruta= 'url('+svg+')';
+                    
+                    country_flag.classList.add('main-countries-country__flag');
+                    country_flag.style.backgroundImage=ruta;
+                    country_flag.style.backgroundPosition="center";
+                    country_flag.style.backgroundRepeat="no-repeat";
+                     country_flag.style.backgroundSize="cover";
+                    
+                
+                     ancla.appendChild(country_flag);
+                     
+                     ancla.addEventListener('click',function(){
+                        //ancla.href="http://www.google.com";
+                        Doms['main'].style.display='none';
+
+                     });
+                    country.appendChild(ancla);
+                    country.appendChild(country_description);
+                    
+                    
+                    
+                    // countries.appendChild(ancla);
+                    countries.appendChild(country);
+                    
+                    
+
+                    
+
+                });
+            
+        }
+        
+        //Script de comprobar color del tema
+        function verifyTheme(){
+            const estilo=window.getComputedStyle(document.documentElement).getPropertyValue("--background-color");
+            if( estilo==="hsl(0, 0%, 100%)"){
+                    return "hsl(0, 0%, 100%)";
+                }else{
+                    return "hsl(209, 23%, 22%)";
+                }
+        }
+
+var Obj={};
+var Doms={};
+consultaApi(
+            function(dataPaises){ 
+                        
+                        busqueda(dataPaises,function(header,main,mode,menu,caret,countries){
+                            //Script corresponde color de tema
+                            mode.addEventListener('click',function(){
+                                if(verifyTheme()==="hsl(0, 0%, 100%)"){
+                                        document.documentElement.style.setProperty("--background-color","hsl(207, 26%, 17%)");
+                                        document.documentElement.style.setProperty("--color","hsl(0, 0%, 100%)");
+                                        
+                                        header.style.setProperty("background-color","hsl(209, 23%, 22%)");
+                                        header.style.setProperty("color","hsl(0, 0%, 100%)");
+
+                                        main.style.setProperty("background-color","hsl(207, 26%, 17%)");
+                                        main.style.setProperty("color","hsl(0, 0%, 98%)");
+
+                                        menu.style.setProperty("background-color","hsl(209, 23%, 22%)");
+                                        
+                                        caret.style.setProperty("background-color","hsl(0, 0%, 100%)");
+
+                                        countries.querySelectorAll('.main-countries-country').forEach(
+                                            card=>{
+                                                card.style.setProperty("background-color","hsl(209, 23%, 22%)");
+                                            }
+                                        );
+                                        
+                                    }
+                                
+                                else{
+                                
+                                    document.documentElement.style.setProperty("--background-color","hsl(0, 0%, 100%)");
+                                    document.documentElement.style.setProperty("--color","rgb(0,0,0)");
+                                    
+                                    header.style.setProperty("background-color","hsl(0, 0%, 100%)");
+                                    header.style.setProperty("color","rgb(0,0,0)");
+
+                                    main.style.setProperty("background-color","hsl(0, 0%, 98%)");
+                                    main.style.setProperty("color","rgb(0,0,0)");
+
+                                    menu.style.setProperty("background-color","hsl(0, 0%, 100%)");
+                                    
+                                    caret.style.setProperty("background-color","rgb(0,0,0)");
+
+                                    countries.querySelectorAll('.main-countries-country').forEach(
+                                        card=>{
+                                            card.style.setProperty("background-color","hsl(0, 0%, 100%)");
+                                        }
+                                    );
+                                }
+                            });
+                        });
+                    }
+            );
+         
+           
+         
+
+
+
+    </script>
+</body>
+</html>
