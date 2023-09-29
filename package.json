@@ -4,8 +4,13 @@
   "description": "¡Hola, Comunidad!",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "deploy": "gh-pages -d ."
   },
   "author": "Edgar Roy Huaman Pumachapi",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "-": "^0.0.1",
+    "gh-pages": "^6.0.0",
+    "save-dev": "^0.0.1-security"
+  }
 }

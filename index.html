@@ -263,24 +263,27 @@
         }
 
         .detalle{
-            width: 100%;
             height: calc( 100vh - 70px);
             background-color: var(--color-Very-Light);
             color: var(--color-black);
-            padding: 20px 20px 50px;
+            padding: 20px 20px 45px;
             display: grid;
-            grid-template-rows:repeat(2,auto) ;
-
+            grid-template-rows: auto 1fr;
+            grid-template-columns: 90%;
+            align-items: end;
+            justify-content: center;
         }
 
         .detalle-form{
             width: 100%;
-            
+            height: 50px;
+            display: flex;
+            align-items: center;
         }
 
         .detalle-form button{
             border: none;
-            width: 90px;
+            width: 100px;
             height: 30px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
             font-size: 1.2rem;
@@ -291,7 +294,8 @@
         }
         .detalle-info{
             width: 100%;
-            background-color: tomato;
+            height: 92%;
+            /* background-color: tomato; */
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -299,15 +303,65 @@
         }
 
         .detalle-info__bandera{
+            /* min-width: 280px; */
             width: 100%;
-            max-width: 280px;
-            height: 150px;
+            height: 170px;
             background: url('https://flagcdn.com/pf.svg') no-repeat center;
             background-size: cover;
             align-self: center;
         }
 
+        .detalle-info__datos{
+            width: 100%;
+            height: calc( 100% - 190px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
         
+        .detalle-info__datos--country{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            height: 75%;
+            
+        }
+
+        .detalle-info__datos--country *{
+            font-size: 1.2rem;
+        }
+
+        .detalle-info__datos--country h1{
+            font-size: 1.5rem;
+        }
+
+        .detalle-info__datos--frontera{
+            width: 100%;
+            height: 20%;
+        }
+
+        .detalle-info__datos--frontera>span{
+            font-size: 1.4rem;
+        }
+
+        .detalle-info__datos--frontera>div{
+            margin-top: 8px;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .detalle-info__datos--frontera>div span{
+            display: block;
+            width: 80px;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow:  0px 0px 10px rgba(0, 0, 0, 0.2);
+            
+            
+
+        }
 
         @media only screen and (min-width:320px) and (max-width:480px){
             .main-form>div:first-child{
@@ -320,6 +374,10 @@
 
             .main-countries-country{
                 height: 320px;
+            }
+
+            .detalle{
+                grid-template-columns: 80%;
             }
         }
 
@@ -342,7 +400,25 @@
                 height: 320px;
             }
 
+            .detalle{
+                align-items: start;
+            }
+
+            .detalle-info{
+                flex-direction: row;
+                align-items: center;
+                height: 70%;
+            }
+
+            .detalle-info__bandera{
+                width: 50%;
+                height: 240px;
+            }
             
+            .detalle-info__datos{
+                width: 45%;
+                height: 230px;
+            }
 
         }
 
@@ -363,6 +439,31 @@
 
             .main-countries-country{
                 height: 320px;
+            }
+
+            .detalle{
+                align-items: start;
+            }
+
+            .detalle-info{
+                flex-direction: row;
+                align-items: center;
+                height: 70%;
+            }
+
+            .detalle-info__bandera{
+                width: 45%;
+                height: 250px;
+            }
+            
+            .detalle-info__datos{
+                width: 45%;
+                height: 240px;
+            }
+
+            .detalle-info__datos--frontera>div{
+                justify-content: space-evenly;
+                width: 75%;
             }
         }
 
@@ -386,7 +487,63 @@
                 height: 360px;
             }
 
+            .detalle{
+                align-items: center;
+                grid-template-columns: 80%;
+            }
 
+            .detalle-info{
+                flex-direction: row;
+                align-items: center;
+                height: calc( 100% - 50px);
+            }
+
+            .detalle-info__bandera{
+                width: 45%;
+                max-width: 434px;
+                height: 300px;
+                
+            }
+            
+            .detalle-info__datos{
+                width:48%;
+                height: 240px;
+                max-width: 460px;
+                
+            }
+
+            .detalle-info__datos h1{
+                font-size: 1.8rem;
+            }
+
+            .detalle-info__datos--country{
+                height: 70%;
+                flex-direction: row;
+                justify-content: start;
+                align-items: center;
+                
+            }
+            .detalle-info__datos--country *{
+                font-size: 1.4rem;
+            }
+
+            .detalle-info__datos--country-prioridad{
+                width: 50%;
+            }
+            
+            .detalle-info__datos--frontera{
+                display: flex;
+                align-items: center;
+            }
+            
+            .detalle-info__datos--frontera>span{
+                width: 30%;
+            }
+            .detalle-info__datos--frontera>div{
+                justify-content: space-evenly;
+                width: 70%;
+            }
+            
         }
 
 
@@ -442,26 +599,28 @@
                 
             </div>
             <div class="detalle-info__datos">
+                <h1>Belgium: <span>xxx</span></h1>
                 <div class="detalle-info__datos--country">
-                    <div>
-                        <h1>Belgium</h1>
-                        <p>Native Name</p>
-                        <p>Populacion</p>
-                        <p>Region</p>
-                        <p>Sub Region</p>
-                        <p>Capital</p>
+                    <div class="detalle-info__datos--country-prioridad">
+                        <p>Native Name: <span>xxxx</span> </p>
+                        <p>Populacion: <span>xxx</span> </p>
+                        <p>Region: <span>xxx</span></p>
+                        <p>Sub Region: <span>xxx</span></p>
+                        <p>Capital: <span>xxxx</span></p>
                     </div>
                     <div>
-                        <p>Top Level Domain</p>
-                        <p>Currences</p>
-                        <p>Languaje</p>
+                        <p>Top Level Domain: <span>xxx</span></p>
+                        <p>Currences: <span>xxx</span></p>
+                        <p>Languaje: <span>xxx</span></p>
                     </div>
                 </div>
                 <div class="detalle-info__datos--frontera">
-                    <span>Border Countries</span>
-                    <span>France</span>
-                    <span>Germany</span>
-                    <span>Netherlan</span>
+                    <span>Border Countries:</span>
+                    <div>
+                        <span>France</span>
+                        <span>Germany</span>
+                        <span>Netherlan</span>
+                    </div>
                 </div>
             </div>
         </div>
