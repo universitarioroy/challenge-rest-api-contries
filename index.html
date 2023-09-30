@@ -359,8 +359,6 @@
             align-items: center;
             box-shadow:  0px 0px 10px rgba(0, 0, 0, 0.2);
             
-            
-
         }
 
         @media only screen and (min-width:320px) and (max-width:480px){
@@ -602,24 +600,22 @@
                 <h1>Belgium: <span>xxx</span></h1>
                 <div class="detalle-info__datos--country">
                     <div class="detalle-info__datos--country-prioridad">
-                        <p>Native Name: <span>xxxx</span> </p>
-                        <p>Populacion: <span>xxx</span> </p>
-                        <p>Region: <span>xxx</span></p>
-                        <p>Sub Region: <span>xxx</span></p>
-                        <p>Capital: <span>xxxx</span></p>
+                        <p>Native Name:&nbsp; </p>
+                        <p>Populacion:&nbsp;</p>
+                        <p>Region:&nbsp;</p>
+                        <p>Sub Region:&nbsp;</p>
+                        <p>Capital:&nbsp;</p>
                     </div>
-                    <div>
-                        <p>Top Level Domain: <span>xxx</span></p>
-                        <p>Currences: <span>xxx</span></p>
-                        <p>Languaje: <span>xxx</span></p>
+                    <div class="detalle-info__datos--country-secunadario">
+                        <p>Top Level Domain:&nbsp;</p>
+                        <p>Currences:&nbsp;</p>
+                        <p>Languaje:&nbsp;</p>
                     </div>
                 </div>
                 <div class="detalle-info__datos--frontera">
                     <span>Border Countries:</span>
                     <div>
-                        <span>France</span>
-                        <span>Germany</span>
-                        <span>Netherlan</span>
+                        
                     </div>
                 </div>
             </div>
@@ -670,26 +666,64 @@
             Doms['caret']=document.querySelector('.caret');
             Doms['countries']=document.querySelector('.main-countries');
             Doms['search']=document.querySelector('.main-form__search');
-            
-            Doms['form'].addEventListener('submit',(event=>{
-                event.preventDefault();
-            }));
 
+
+            Doms['Detalle']=document.querySelector('.detalle');
+            Doms['banderaDetalle']=document.querySelector('.detalle-info__bandera');
+            Doms['tituloDetalle']=document.querySelector('.detalle-info__datos>h1');
+            Doms['nativeName']=document.querySelector('.detalle-info__datos--country-prioridad>p:nth-child(1)');
+            Doms['populacion']=document.querySelector('.detalle-info__datos--country-prioridad>p:nth-child(2)');
+            Doms['region']=document.querySelector('.detalle-info__datos--country-prioridad>p:nth-child(3)');
+            Doms['subRegion']=document.querySelector('.detalle-info__datos--country-prioridad>p:nth-child(4)');
+            Doms['capital']=document.querySelector('.detalle-info__datos--country-prioridad>p:nth-child(5)');
+            
+            Doms['tdl']=document.querySelector('.detalle-info__datos--country-secunadario p:nth-child(1)');
+            Doms['currency']=document.querySelector('.detalle-info__datos--country-secunadario p:nth-child(2)');
+            Doms['languaje']=document.querySelector('.detalle-info__datos--country-secunadario p:nth-child(3)');
+            
+            Doms['borders']=document.querySelector('.detalle-info__datos--frontera>div');
+            Doms['formDetalle']=document.querySelector('.detalle-form');
+            Doms['btnDetalle']=document.querySelector('.detalle-form button');
+
+            
             fillItem(Doms['menu'],dataPaises);
             createDropdown(dataPaises,Doms['countries']);
            
-            
+            Doms['Detalle'].style.display='none';
             let filter=[...dataPaises];
             let attr='a';
             
             Doms['search'].addEventListener('input',(event)=>{
+                Doms['Detalle'].style.display='none';
                 const input=event.target.value.toUpperCase();
                 filterCoutriesSelect(filter,Doms['countries'],input,2);
             });
 
+            //form main
+            Doms['form'].addEventListener('submit',(event=>{
+                event.preventDefault();
+            }));
 
+            //form detalle
+            Doms['formDetalle'].addEventListener('submit',(event)=>{
+                event.preventDefault();
+            });
+
+            Doms['btnDetalle'].addEventListener('click',(event)=>{
+                Doms['main'].style.display='flex';
+                Doms['Detalle'].style.display='none';
+                console.log('ass');
+            });
+            
             showContries(filter,Doms['countries']);
-            otrocallback(Doms['header'],Doms['main'],Doms['mode'],Doms['menu'],Doms['caret'],Doms['countries']);
+            otrocallback(Doms['header'],
+                         Doms['main'],
+                         Doms['mode'],
+                         Doms['menu'],
+                         Doms['caret'],
+                         Doms['countries'],
+                         Doms['Detalle'],
+                         Doms['btnDetalle']);
         }
 
         //Script llenado de lista
@@ -800,14 +834,21 @@
         //Script solo muestra los paises
 
         function showContries(data,countries,attr){
-                console.log(data.length);
-
+                
                 data.forEach((pais)=>{
-                    const official=pais.name?.official;
+                    const official=pais.name?.common;
                     const population=pais?.population;
                     const region=pais?.region;
+                    const subRegion=pais?.subregion;
                     const capital=pais?.capital;
                     const {svg}=pais?.flags;
+                    const nativeName=pais?.name?.nativeName;
+                    const tld=pais?.tld;
+                    const currency=pais?.currencies;
+                    const languages=pais?.languages;
+                    const borders=pais?.borders;
+
+                                
                     // console.log(official+population+region+capital);
                     
                     const ancla=document.createElement('a');
@@ -864,28 +905,112 @@
                     country_flag.style.backgroundImage=ruta;
                     country_flag.style.backgroundPosition="center";
                     country_flag.style.backgroundRepeat="no-repeat";
-                     country_flag.style.backgroundSize="cover";
+                    country_flag.style.backgroundSize="cover";
                     
                 
-                     ancla.appendChild(country_flag);
+                    ancla.appendChild(country_flag);
                      
-                     ancla.addEventListener('click',function(){
-                        //ancla.href="http://www.google.com";
-                        Doms['main'].style.display='none';
+                    ancla.addEventListener('click',function(){
+                        
+                        //hide main layout
+                         Doms['main'].style.display='none';
+                        Doms['Detalle'].style.display='grid';
+                        //image country flag
+                        Doms['banderaDetalle'].style.backgroundImage=ruta;
+                        Doms['banderaDetalle'].style.backgroundPosition="center";
+                        Doms['banderaDetalle'].style.backgroundRepeat="no-repeat";
+                        Doms['banderaDetalle'].style.backgroundSize="cover";
+
+                        //titulo del detalle
+                        Doms['tituloDetalle'].innerText=official;
+                        
+                        //native name
+                        const natives=Object.entries(nativeName);
+                        natives.sort((a,b)=>{
+                            return a[1].common<b[1].common?-1:1;
+                        });
+                        
+                        const arrNative=[];
+                        for(let index=0;index<natives.length;index++){
+                            arrNative[index]=natives[index][1].common;
+                        }
+                        Doms['nativeName'].innerText='';
+                        Doms['nativeName'].innerText='Native Name: '+[...new Set(arrNative)].join(',');
+                        
+                        //population
+                        Doms['populacion'].innerText='';
+                        Doms['populacion'].innerText='Populacion: '+population.toLocaleString();
+                        
+                        //region
+                        Doms['region'].innerText='';
+                        Doms['region'].innerText='Region: '+region;
+
+                        //subreigion
+                        Doms['subRegion'].innerText='';
+                        Doms['subRegion'].innerText='Sub Region: '+subRegion;
+
+                        //capital
+                        Doms['capital'].innerText='';
+                        Doms['capital'].innerText='Capital: '+capital;
+
+                        //top domanin level
+                        Doms['tdl'].innerText='';
+                        Doms['tdl'].innerText='Tdl: '+tld;
+
+
+                        //currences
+                        const arrCurrency=Object.entries(currency);
+                        arrCurrency.sort((a,b)=>{
+                            return a[1].name<b[1].name?-1:1;
+                        })
+                        
+                        const outCurrency=[];
+                        for(let index=0;index<arrCurrency.length;index++){
+                            outCurrency[index]=arrCurrency[index][1].name;
+                        }
+                        Doms['currency'].innerText='';
+                        Doms['currency'].innerText='Currency: '+outCurrency.join(',');
+                        
+                        //languaje
+                        const arrLanguaje=Object.entries(languages);
+                        
+                        arrLanguaje.sort((a,b)=>{
+                            return a[1]<b[1]?-1:1;
+                        });
+
+                        const bn=[];
+                        for (let index = 0; index < arrLanguaje.length; index++) {
+                            bn[index]=arrLanguaje[index][1];
+                        }
+                        
+                        Doms['languaje'].innerText='';
+                        Doms['languaje'].innerText='Languaje: '+bn.join(',');
+                        
+                        //border
+                        
+                        const filterBorder=JSON.parse(localStorage.getItem("dataPaises")).filter((elemento)=>{
+                            return borders?.includes(elemento.cca3);
+                        });
+
+                        filterBorder?.sort((a,b)=>{
+                            return a['name']['common']<b['name']['common']?-1:1;
+                        });
+                        
+                        Doms['borders'].innerHTML='';
+                        for(let index=0;index<filterBorder?.length;index++){
+                            const spanBorder=document.createElement('span');
+                            spanBorder.textContent=filterBorder[index]['name']['common'];
+                            Doms['borders'].appendChild(spanBorder);
+                        }
 
                      });
+
                     country.appendChild(ancla);
                     country.appendChild(country_description);
                     
-                    
-                    
                     // countries.appendChild(ancla);
                     countries.appendChild(country);
-                    
-                    
-
-                    
-
+                
                 });
             
         }
@@ -900,12 +1025,13 @@
                 }
         }
 
+
 var Obj={};
 var Doms={};
 consultaApi(
             function(dataPaises){ 
                         
-                        busqueda(dataPaises,function(header,main,mode,menu,caret,countries){
+                        busqueda(dataPaises,function(header,main,mode,menu,caret,countries,detalle,btnDetalle){
                             //Script corresponde color de tema
                             mode.addEventListener('click',function(){
                                 if(verifyTheme()==="hsl(0, 0%, 100%)"){
@@ -927,7 +1053,13 @@ consultaApi(
                                                 card.style.setProperty("background-color","hsl(209, 23%, 22%)");
                                             }
                                         );
+
+                                        detalle.style.setProperty("background-color","hsl(207, 26%, 17%)");
+                                        detalle.style.setProperty("color","hsl(0, 0%, 98%)");
+
                                         
+                                        btnDetalle.style.setProperty("background-color","hsl(209, 23%, 22%)");
+                                        btnDetalle.style.setProperty("color","hsl(0, 0%, 98%)");
                                     }
                                 
                                 else{
@@ -943,6 +1075,7 @@ consultaApi(
 
                                     menu.style.setProperty("background-color","hsl(0, 0%, 100%)");
                                     
+                                    
                                     caret.style.setProperty("background-color","rgb(0,0,0)");
 
                                     countries.querySelectorAll('.main-countries-country').forEach(
@@ -950,6 +1083,12 @@ consultaApi(
                                             card.style.setProperty("background-color","hsl(0, 0%, 100%)");
                                         }
                                     );
+
+                                    detalle.style.setProperty("background-color","hsl(0, 0%, 98%)");
+                                    detalle.style.setProperty("color","rgb(0,0,0)");
+
+                                    btnDetalle.style.setProperty("background-color","hsl(0, 0%, 100%)");
+                                    btnDetalle.style.setProperty("color","rgb(0,0,0)");
                                 }
                             });
                         });
