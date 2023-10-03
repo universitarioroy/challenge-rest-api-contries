@@ -263,7 +263,7 @@
         }
 
         .detalle{
-            height: calc( 100vh - 70px);
+            min-height: calc( 100vh - 30px); 
             background-color: var(--color-Very-Light);
             color: var(--color-black);
             padding: 20px 20px 45px;
@@ -276,7 +276,7 @@
 
         .detalle-form{
             width: 100%;
-            height: 50px;
+            height: 40px;
             display: flex;
             align-items: center;
         }
@@ -294,7 +294,7 @@
         }
         .detalle-info{
             width: 100%;
-            height: 92%;
+            /* height: 95%; */
             /* background-color: tomato; */
             display: flex;
             flex-direction: column;
@@ -305,7 +305,7 @@
         .detalle-info__bandera{
             /* min-width: 280px; */
             width: 100%;
-            height: 170px;
+            height: 150px;
             background: url('https://flagcdn.com/pf.svg') no-repeat center;
             background-size: cover;
             align-self: center;
@@ -313,17 +313,17 @@
 
         .detalle-info__datos{
             width: 100%;
-            height: calc( 100% - 190px);
+            min-height: 350px;
             display: flex;
             flex-direction: column;
-            justify-content: space-around;
+            justify-content: space-evenly;
         }
         
         .detalle-info__datos--country{
             display: flex;
             flex-direction: column;
             justify-content: space-around;
-            height: 75%;
+            height: 150px;
             
         }
 
@@ -337,7 +337,7 @@
 
         .detalle-info__datos--frontera{
             width: 100%;
-            height: 20%;
+            /* height: 20%; */
         }
 
         .detalle-info__datos--frontera>span{
@@ -348,16 +348,19 @@
             margin-top: 8px;
             display: flex;
             justify-content: space-around;
+            flex-wrap: wrap;
+            min-height: 80px;
         }
 
         .detalle-info__datos--frontera>div span{
             display: block;
-            width: 80px;
+            min-width: 80px;
             height: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
             box-shadow:  0px 0px 10px rgba(0, 0, 0, 0.2);
+            padding: 0 5px;
             
         }
 
@@ -375,7 +378,12 @@
             }
 
             .detalle{
+                min-height: 100vh; 
                 grid-template-columns: 80%;
+            }
+
+            .detalle-info__bandera{
+                height: 180px;
             }
         }
 
@@ -400,6 +408,8 @@
 
             .detalle{
                 align-items: start;
+                min-height: calc( 100vh - 70px);
+   
             }
 
             .detalle-info{
@@ -410,7 +420,7 @@
 
             .detalle-info__bandera{
                 width: 50%;
-                height: 240px;
+                height: 270px;
             }
             
             .detalle-info__datos{
@@ -441,6 +451,7 @@
 
             .detalle{
                 align-items: start;
+                min-height: calc( 100vh - 70px);
             }
 
             .detalle-info{
@@ -451,7 +462,7 @@
 
             .detalle-info__bandera{
                 width: 45%;
-                height: 250px;
+                height: 260px;
             }
             
             .detalle-info__datos{
@@ -488,6 +499,7 @@
             .detalle{
                 align-items: center;
                 grid-template-columns: 80%;
+                min-height: calc( 100vh - 70px);
             }
 
             .detalle-info{
@@ -505,7 +517,7 @@
             
             .detalle-info__datos{
                 width:48%;
-                height: 240px;
+                min-height: 300px;
                 max-width: 460px;
                 
             }
@@ -540,6 +552,7 @@
             .detalle-info__datos--frontera>div{
                 justify-content: space-evenly;
                 width: 70%;
+                align-items: center;
             }
             
         }
@@ -716,14 +729,16 @@
             });
             
             showContries(filter,Doms['countries']);
-            otrocallback(Doms['header'],
-                         Doms['main'],
-                         Doms['mode'],
-                         Doms['menu'],
-                         Doms['caret'],
-                         Doms['countries'],
-                         Doms['Detalle'],
-                         Doms['btnDetalle']);
+            otrocallback();
+            
+            // otrocallback(Doms['header'],
+            //              Doms['main'],
+            //              Doms['mode'],
+            //              Doms['menu'],
+            //              Doms['caret'],
+            //              Doms['countries'],
+            //              Doms['Detalle'],
+            //              Doms['btnDetalle']);
         }
 
         //Script llenado de lista
@@ -1031,35 +1046,36 @@ var Doms={};
 consultaApi(
             function(dataPaises){ 
                         
-                        busqueda(dataPaises,function(header,main,mode,menu,caret,countries,detalle,btnDetalle){
+                        busqueda(dataPaises,function(){
                             //Script corresponde color de tema
-                            mode.addEventListener('click',function(){
+                         
+                            Doms['mode'].addEventListener('click',function(){
                                 if(verifyTheme()==="hsl(0, 0%, 100%)"){
                                         document.documentElement.style.setProperty("--background-color","hsl(207, 26%, 17%)");
                                         document.documentElement.style.setProperty("--color","hsl(0, 0%, 100%)");
                                         
-                                        header.style.setProperty("background-color","hsl(209, 23%, 22%)");
-                                        header.style.setProperty("color","hsl(0, 0%, 100%)");
+                                        Doms['header'].style.setProperty("background-color","hsl(209, 23%, 22%)");
+                                        Doms['header'].style.setProperty("color","hsl(0, 0%, 100%)");
 
-                                        main.style.setProperty("background-color","hsl(207, 26%, 17%)");
-                                        main.style.setProperty("color","hsl(0, 0%, 98%)");
+                                        Doms['main'].style.setProperty("background-color","hsl(207, 26%, 17%)");
+                                        Doms['main'].style.setProperty("color","hsl(0, 0%, 98%)");
 
-                                        menu.style.setProperty("background-color","hsl(209, 23%, 22%)");
+                                        Doms['menu'].style.setProperty("background-color","hsl(209, 23%, 22%)");
                                         
-                                        caret.style.setProperty("background-color","hsl(0, 0%, 100%)");
+                                        Doms['caret'].style.setProperty("background-color","hsl(0, 0%, 100%)");
 
-                                        countries.querySelectorAll('.main-countries-country').forEach(
+                                        Doms['countries'].querySelectorAll('.main-countries-country').forEach(
                                             card=>{
                                                 card.style.setProperty("background-color","hsl(209, 23%, 22%)");
                                             }
                                         );
 
-                                        detalle.style.setProperty("background-color","hsl(207, 26%, 17%)");
-                                        detalle.style.setProperty("color","hsl(0, 0%, 98%)");
+                                        Doms['Detalle'].style.setProperty("background-color","hsl(207, 26%, 17%)");
+                                        Doms['Detalle'].style.setProperty("color","hsl(0, 0%, 98%)");
 
                                         
-                                        btnDetalle.style.setProperty("background-color","hsl(209, 23%, 22%)");
-                                        btnDetalle.style.setProperty("color","hsl(0, 0%, 98%)");
+                                        Doms['btnDetalle'].style.setProperty("background-color","hsl(209, 23%, 22%)");
+                                        Doms['btnDetalle'].style.setProperty("color","hsl(0, 0%, 98%)");
                                     }
                                 
                                 else{
@@ -1067,28 +1083,28 @@ consultaApi(
                                     document.documentElement.style.setProperty("--background-color","hsl(0, 0%, 100%)");
                                     document.documentElement.style.setProperty("--color","rgb(0,0,0)");
                                     
-                                    header.style.setProperty("background-color","hsl(0, 0%, 100%)");
-                                    header.style.setProperty("color","rgb(0,0,0)");
+                                    Doms['header'].style.setProperty("background-color","hsl(0, 0%, 100%)");
+                                    Doms['header'].style.setProperty("color","rgb(0,0,0)");
 
-                                    main.style.setProperty("background-color","hsl(0, 0%, 98%)");
-                                    main.style.setProperty("color","rgb(0,0,0)");
+                                    Doms['main'].style.setProperty("background-color","hsl(0, 0%, 98%)");
+                                    Doms['main'].style.setProperty("color","rgb(0,0,0)");
 
-                                    menu.style.setProperty("background-color","hsl(0, 0%, 100%)");
+                                    Doms['menu'].style.setProperty("background-color","hsl(0, 0%, 100%)");
                                     
                                     
-                                    caret.style.setProperty("background-color","rgb(0,0,0)");
+                                    Doms['caret'].style.setProperty("background-color","rgb(0,0,0)");
 
-                                    countries.querySelectorAll('.main-countries-country').forEach(
+                                    Doms['countries'].querySelectorAll('.main-countries-country').forEach(
                                         card=>{
                                             card.style.setProperty("background-color","hsl(0, 0%, 100%)");
                                         }
                                     );
 
-                                    detalle.style.setProperty("background-color","hsl(0, 0%, 98%)");
-                                    detalle.style.setProperty("color","rgb(0,0,0)");
+                                    Doms['Detalle'].style.setProperty("background-color","hsl(0, 0%, 98%)");
+                                    Doms['Detalle'].style.setProperty("color","rgb(0,0,0)");
 
-                                    btnDetalle.style.setProperty("background-color","hsl(0, 0%, 100%)");
-                                    btnDetalle.style.setProperty("color","rgb(0,0,0)");
+                                    Doms['btnDetalle'].style.setProperty("background-color","hsl(0, 0%, 100%)");
+                                    Doms['btnDetalle'].style.setProperty("color","rgb(0,0,0)");
                                 }
                             });
                         });
